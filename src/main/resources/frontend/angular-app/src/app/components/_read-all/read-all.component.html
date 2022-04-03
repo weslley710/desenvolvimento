@@ -1,0 +1,25 @@
+<div class="container">
+	
+	<button (click)="create()" class="nova-pessoa mat-elevation-z8" mat-stroked-button color="primary">Nova Pessoa</button>
+	
+	<div class="content" *ngFor="let pessoa of list">
+		<mat-card class="mat-elevation-z8">
+			<mat-card-header>
+		    	<mat-card-title>{{pessoa.nome}}</mat-card-title>
+		    	<mat-card-subtitle>{{pessoa.dataNascimento | date: 'dd/MM/yyyy'}}</mat-card-subtitle>
+		  	</mat-card-header>
+		  	
+		  	<div class="actions">
+		  		<button mat-mini-fab color="primary">
+		  			<mat-icon>done</mat-icon>
+		  		</button>
+		  		<button mat-mini-fab color="accent">
+		  			<mat-icon>edit</mat-icon>
+		  		</button>
+		  		<button (click)="delete(pessoa.id)" mat-mini-fab color="warn">
+		  			<mat-icon>delete</mat-icon>
+		  		</button>
+		  	</div>
+		</mat-card>
+	</div>
+</div>
