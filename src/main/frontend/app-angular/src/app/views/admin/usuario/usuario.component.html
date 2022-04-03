@@ -7,7 +7,6 @@
 						<mat-icon>menu</mat-icon>
 						<span>Usuários</span>
 						<span class="spacer"></span>
-						<button (click)="cadastrar()" class="mat-elevation-z8" mat-stroked-button>Cadastrar Usuário</button> 
 					</mat-toolbar-row>
 				</mat-toolbar>
 
@@ -18,13 +17,20 @@
 				</div>	
 
 				<div [hidden]="isLoading">
-					
-					<mat-form-field appearance="standard"> 
-						<mat-icon style="position: absolute; margin-top: -3px;">search</mat-icon>
-						<mat-label style="margin-left: 25px;">Pesquisar</mat-label>
-						<input style="margin-left: 25px;" matInput (keyup)="applyFilter($event)" placeholder="login, nome, email, dt. nascimento, dt. cadastro, ativo"	#input>
-					</mat-form-field>
 
+					<div>
+						<div class="cabecalho-pesquisa">
+							<mat-form-field appearance="standard">
+								<mat-icon style="position: absolute; margin-top: -3px;">search</mat-icon>
+								<mat-label style="margin-left: 25px;">Pesquisar</mat-label>
+								<input style="margin-left: 25px;" matInput (keyup)="applyFilter($event)" placeholder="login, nome, email, dt. nascimento, dt. cadastro, ativo"	#input>
+							</mat-form-field>
+						</div>
+						<div class="cabecalho-pesquisa">
+							<button (click)="cadastrar()" class="mat-elevation-z8 botao-cabecalho" mat-raised-button color="primary">Cadastrar Usuário</button>
+						</div>
+					</div>
+					
 					<table mat-table [dataSource]="dataSource">
 	
 						<ng-container matColumnDef="login">

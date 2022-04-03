@@ -38,6 +38,13 @@ public class UsuarioService implements UserDetailsService {
 		}
 	}
 	
+	public Usuario findByLogin(String login) {
+		
+		Usuario usuario = usuarioRepository.findByLoginAndIsAtivo(login, true);
+
+		return usuario;
+	}
+	
 	public Usuario findById(Integer id) {
 		
 		Optional<Usuario> usuario = usuarioRepository.findById(id);

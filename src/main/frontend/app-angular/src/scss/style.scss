@@ -13,6 +13,29 @@ $card-cap-bg: #20a8d8;
 // If you want to add something do it here
 @import "custom";
 
+button:disabled {
+	cursor: not-allowed !important;
+	pointer-events: all !important;
+}
+
+button:hover {
+	opacity: 0.8;
+}
+
+.cabecalho-pesquisa {
+	width: 50%; 
+	display: inline-block;	
+}
+
+.botao-cabecalho {
+	float: right; 
+	margin-right: 15px !important;
+}
+
+.nav-dropdown-items .nav-icon {
+	margin-left: 15px !important;
+}
+
 .spacer {
     flex: 1 1 auto;
 }

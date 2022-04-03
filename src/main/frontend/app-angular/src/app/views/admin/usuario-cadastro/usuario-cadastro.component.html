@@ -15,22 +15,22 @@
 						<div class="form">
 						  	<mat-form-field appearance="outline" [style.width.%]="25">
 						    	<mat-label>Nome</mat-label>
-						    	<input [(ngModel)]="usuario.nome" name="usuario.nome" matInput placeholder="Ex. Marcos Wesley" required>
+						    	<input [(ngModel)]="usuario.nome" name="usuario.nome" matInput placeholder="Ex. Jessica Alba" maxlength="50" required>
 						  	</mat-form-field>
 						  	
 						  	<mat-form-field appearance="outline" [style.width.%]="25">
 						    	<mat-label>Login</mat-label>
-						    	<input [(ngModel)]="usuario.login" name="usuario.login" matInput required>
+						    	<input [(ngModel)]="usuario.login" name="usuario.login" maxlength="20" matInput required>
 						  	</mat-form-field>
 						  	
 						  	<mat-form-field appearance="outline" [style.width.%]="25">
 						    	<mat-label>E-mail</mat-label>
-						    	<input [(ngModel)]="usuario.email" name="usuario.email" matInput placeholder="pat@example.com" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
+						    	<input [(ngModel)]="usuario.email" name="usuario.email" matInput placeholder="pat@example.com" maxlength="50" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
 						  	</mat-form-field>
 						  	
 						  	<mat-form-field class="data-nascimento" appearance="outline" [style.width.%]="25">
 							    <mat-label>Data de Nascimento</mat-label>
-							    <input [(ngModel)]="usuario.dataNascimento" name="usuario.dataNascimento" matInput [matDatepicker]="dtNascimento" required>
+							    <input [(ngModel)]="usuario.dataNascimento" name="usuario.dataNascimento" matInput maxlength="10" [matDatepicker]="dtNascimento" required>
 							    <mat-datepicker-toggle matSuffix [for]="dtNascimento"></mat-datepicker-toggle>
 							    <mat-datepicker #dtNascimento disabled="false"></mat-datepicker>
 						  	</mat-form-field>

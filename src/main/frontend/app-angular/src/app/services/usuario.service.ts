@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Usuario } from '../models/usuario';
@@ -13,27 +13,32 @@ export class UsuarioService {
 
   private readonly API = 'api/usuarios';
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
   findAll(): Observable<Usuario[]> {
-	return this.http.get<Usuario[]>(this.API);	
+	return this.httpClient.get<Usuario[]>(this.API);	
   }
   
   findById(id: number): Observable<Usuario> {
 	const url = `${this.API}/${id}`;
-	return this.http.get<Usuario>(url);	
+	return this.httpClient.get<Usuario>(url);	
+  }
+  
+  findByLogin(login: string): Observable<Usuario> {
+	const url = `${this.API}/find-by-login?login=${login}`;
+	return this.httpClient.get<Usuario>(url);
   }
   
   save(usuario: Usuario): Observable<Usuario> {
-	return this.http.post<Usuario>(this.API, usuario);	
+	return this.httpClient.post<Usuario>(this.API, usuario);	
   }
   
   update(usuario: Usuario): Observable<Usuario> {
-	return this.http.put<Usuario>(this.API, usuario);	
+	return this.httpClient.put<Usuario>(this.API, usuario);	
   }
   
   delete(id: number): Observable<void> {
 	const url = `${this.API}/${id}`;
-	return this.http.delete<void>(url);	
+	return this.httpClient.delete<void>(url);	
   }
 }

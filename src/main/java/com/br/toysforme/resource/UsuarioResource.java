@@ -1,11 +1,8 @@
 package com.br.toysforme.resource;
 
-import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,14 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.br.toysforme.domain.Usuario;
 import com.br.toysforme.service.UsuarioService;
 
-@CrossOrigin("*")
 @RestController
 @RequestMapping(value = "api/usuarios")
 public class UsuarioResource {
@@ -36,6 +32,14 @@ public class UsuarioResource {
 		return usuario;
 	}
 	
+	@GetMapping(value = "/find-by-login")
+	public @ResponseBody Usuario findByLogin(@RequestParam String login) {
+		
+		Usuario usuario = usuarioService.findByLogin(login);
+
+		return usuario;
+	}
+	
 	@GetMapping
 	public @ResponseBody List<Usuario> findAll() {
 		
@@ -45,13 +49,11 @@ public class UsuarioResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
-		
+	public @ResponseBody Usuario save(@RequestBody Usuario usuario) {
+
 		usuario = usuarioService.save(usuario);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuario.getId()).toUri();
-		
-		return ResponseEntity.created(uri).body(usuario);
+		return usuario;
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -61,10 +63,10 @@ public class UsuarioResource {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Usuario> update(@RequestBody Usuario usuario) {
+	public @ResponseBody Usuario update(@RequestBody Usuario usuario) {
 		
 		Usuario novoUsuario = usuarioService.update(usuario);
 
-		return ResponseEntity.ok().body(novoUsuario);
+		return novoUsuario;
 	}
 }
