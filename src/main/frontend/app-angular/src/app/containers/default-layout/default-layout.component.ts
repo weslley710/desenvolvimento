@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { navItems } from '../../_nav';
+import { Component, OnInit } from '@angular/core';
+import { NavData } from '../../_nav';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
@@ -7,11 +7,17 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
   templateUrl: './default-layout.component.html'
 })
 
-export class DefaultLayoutComponent {
+export class DefaultLayoutComponent implements OnInit {
   public sidebarMinimized = false;
-  public navItems = navItems;
+//  public navItems = navItems;
 
-  constructor(private authenticationService: AuthenticationService) { }
+  public navItems = [];
+
+  constructor(private authenticationService: AuthenticationService, private navData: NavData) { }
+
+  ngOnInit(): void {
+	this.navItems = this.navData.getNavItens();
+  }
 
   logout() {
 	this.authenticationService.logOut();

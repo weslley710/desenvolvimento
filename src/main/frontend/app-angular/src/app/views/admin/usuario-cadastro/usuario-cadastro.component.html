@@ -39,6 +39,13 @@
 						    	<mat-label>Senha</mat-label>
 						    	<input [(ngModel)]="usuario.senha" name="usuario.senha" type="password" matInput required>
 						  	</mat-form-field>
+						  	
+						  	<mat-form-field appearance="outline" [style.width.%]="25">
+						    	<mat-label>Função</mat-label>
+						    	<mat-select [(ngModel)]="usuario.funcaoList" name="usuario.funcaoList" [compareWith]="compareWithFuncao" multiple>
+								   <mat-option *ngFor="let funcao of funcaoList" [value]="funcao">{{funcao.nome}}</mat-option>
+								</mat-select>
+						  	</mat-form-field>
 
 						  	<mat-form-field appearance="outline" [style.width.%]="25" *ngIf="state == 'editar'">
 						    	<mat-label>Ativo?</mat-label>

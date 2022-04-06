@@ -28,11 +28,9 @@ export class AuthenticationService {
           sessionStorage.setItem("login", login);
           let tokenStr = "Bearer " + userLogged.token;
           sessionStorage.setItem("token", tokenStr);
-          // Seta usuario logado na sessao
           
-          this.usuarioService.findByLogin(login).subscribe((usuario) => {
-			sessionStorage.setItem("usuarioLogado", JSON.stringify(usuario));
-		  })
+          // Seta usuario logado na sessao
+          sessionStorage.setItem("usuarioLogado", JSON.stringify(userLogged));
 
           return userLogged;
         })
@@ -53,5 +51,28 @@ export class AuthenticationService {
 
   logOut() {
     sessionStorage.removeItem("login");
+    sessionStorage.removeItem("usuarioLogado");
+  }
+  
+  roleMatch(allowedRoles): boolean {
+    let isMatch = false;
+	
+	const userRoles: any = this.userLogged().funcaoList;
+	
+    if (userRoles != null && userRoles) {
+    	for (let i = 0; i < userRoles.length; i++) {
+        	for (let j = 0; j < allowedRoles.length; j++) {
+          		if (userRoles[i].nome === allowedRoles[j]) {
+            		isMatch = true;
+            		
+            		return isMatch;
+          		} else {
+            		return isMatch;
+          		}
+        	}
+      	}
+    } 
+
+    return isMatch;
   }
 }

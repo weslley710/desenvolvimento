@@ -4,6 +4,10 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { Usuario } from 'src/app/models/usuario';
 import { UsuarioService } from 'src/app/services/usuario.service';
+
+import { Funcao } from 'src/app/models/funcao';
+import { FuncaoService } from 'src/app/services/funcao.service';
+
 import { NotificationService } from '../../../services/notification.service'
 
 @Component({
@@ -19,15 +23,20 @@ export class UsuarioCadastroComponent implements OnInit {
 	login: '',
 	senha: '',
 	isAtivo: true,
-	dataNascimento: null
+	dataNascimento: null,
+	funcaoList: []
   }
+
+  funcaoList: Funcao[] = [];
+  funcaoListSelected: Funcao[] = [];
 
   id: number; // id do usuario
   state: string = 'cadastrar';
 
-  constructor(private route: ActivatedRoute, private router: Router, private usuarioService: UsuarioService, private notificationService: NotificationService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private usuarioService: UsuarioService, private funcaoService: FuncaoService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
+	// pega o id passado por parametro para edicao dos dados
 	this.route.params.subscribe((params: Params) => {
 		this.id = params['id'];
 
@@ -36,6 +45,10 @@ export class UsuarioCadastroComponent implements OnInit {
 			this.state = 'editar';
 		}
 	})
+	
+	this.funcaoService.findAll().subscribe((funcaoList) => {
+		this.funcaoList = funcaoList;
+	});
   }
   
   salvar(): void {
@@ -57,6 +70,8 @@ export class UsuarioCadastroComponent implements OnInit {
   }
   
   carregarEditar(): void {
+	this.funcaoListSelected = [];
+	
 	this.usuarioService.findById(this.id).subscribe((usuario) => {
 		this.usuario = usuario;
 	})
@@ -64,5 +79,10 @@ export class UsuarioCadastroComponent implements OnInit {
   
   cancelar(): void {
 	this.router.navigate(['admin/usuario']);
+  }
+  
+  // Utilizado para bind do objeto funcao no combo
+  compareWithFuncao(item1, item2) {
+    return item1 && item2 ? item1.nome === item2.nome : item1 === item2;
   }
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.toysforme.configuration.JwtTokenUtil;
 import com.br.toysforme.domain.JwtRequest;
-import com.br.toysforme.domain.JwtResponse;
+import com.br.toysforme.domain.Usuario;
 
 @RestController
 @CrossOrigin
@@ -42,7 +42,10 @@ public class JwtAuthenticationResource {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new JwtResponse(token));
+		Usuario usuario = (Usuario) userDetails;
+		usuario.setJwttoken(token);
+
+		return ResponseEntity.ok(usuario);
 	}
 
 	private void authenticate(String login, String senha) throws Exception {

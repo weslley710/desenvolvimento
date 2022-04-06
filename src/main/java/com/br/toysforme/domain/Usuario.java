@@ -2,15 +2,26 @@ package com.br.toysforme.domain;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class Usuario extends PersistentEntityImpl {
+public class Usuario extends PersistentEntityImpl implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -37,6 +48,13 @@ public class Usuario extends PersistentEntityImpl {
 	
 	@Column(nullable = false)
 	private Boolean isAtivo;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(name = "usuario_funcao", joinColumns = {@JoinColumn(name = "usuario_id")}, inverseJoinColumns = {@JoinColumn(name = "funcao_id")})
+    private List<Funcao> funcaoList;
+	
+	@Transient
+	private String jwttoken;
 
 	public Integer getId() {
 		return id;
@@ -100,5 +118,63 @@ public class Usuario extends PersistentEntityImpl {
 
 	public void setIsAtivo(Boolean isAtivo) {
 		this.isAtivo = isAtivo;
+	}
+
+	public List<Funcao> getFuncaoList() {
+		return funcaoList;
+	}
+
+	public void setFuncaoList(List<Funcao> funcaoList) {
+		this.funcaoList = funcaoList;
+	}
+
+	public String getToken() {
+		return this.jwttoken;
+	}
+
+	public void setJwttoken(String jwttoken) {
+		this.jwttoken = jwttoken;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.senha;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.login;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return this.isAtivo;
 	}
 }

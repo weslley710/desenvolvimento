@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { Router } from '@angular/router';
 
-import { Usuario } from '../../../models/usuario'
-import { UsuarioService } from '../../../services/usuario.service'
+import { Funcao } from '../../../models/funcao'
+import { FuncaoService } from '../../../services/funcao.service'
 import { DialogService } from '../../../services/dialog.service'
 import { NotificationService } from '../../../services/notification.service'
 
@@ -11,51 +11,50 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
-  selector: 'app-usuario',
-  templateUrl: './usuario.component.html',
-  styleUrls: ['./usuario.component.scss']
+  selector: 'app-funcao',
+  templateUrl: './funcao.component.html',
+  styleUrls: ['./funcao.component.scss']
 })
+export class FuncaoComponent implements OnInit {
 
-export class UsuarioComponent implements OnInit {
+  displayedColumns: string[] = ['nome', 'descricao', 'acoes'];
 
-  displayedColumns: string[] = ['login', 'nome', 'email', 'dataNascimento', 'dataCadastro', 'ativo', 'acoes'];
-
-  usuarioList: Usuario[] = [];
-  dataSource: MatTableDataSource<Usuario>;
+  funcaoList: Funcao[] = [];
+  dataSource: MatTableDataSource<Funcao>;
   isLoading = true;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private usuarioService: UsuarioService, private router: Router, private dialogService: DialogService, private notificationService: NotificationService) { }
+  constructor(private funcaoService: FuncaoService, private router: Router, private dialogService: DialogService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
 	this.findAll();
   }
   
   findAll(): void {
-	this.usuarioService.findAll().subscribe((listUsuarios) => {
+	this.funcaoService.findAll().subscribe((listFuncoes) => {
 		this.isLoading = false;
-		this.dataSource = new MatTableDataSource(listUsuarios);
+		this.dataSource = new MatTableDataSource(listFuncoes);
 		
 		this.dataSource.paginator = this.paginator;
 	}, error => this.isLoading = false);
   }
   
   cadastrar(): void {
-	this.router.navigate(['admin/usuario-cadastro']);
+	this.router.navigate(['admin/funcao-cadastro']);
   }
   
   editar(id: any): void {
-	this.router.navigate(['admin/usuario-cadastro', id]);
+	this.router.navigate(['admin/funcao-cadastro', id]);
   }
   
   deletar(id: any): void {
 	this.dialogService.openConfirmDialog("Deseja excluir o registro em definitivo?")
 	.afterClosed().subscribe(res => {
 		if (res) {
-			this.usuarioService.delete(id).subscribe((resposta) => {
+			this.funcaoService.delete(id).subscribe((resposta) => {
 				if (resposta === null) {
-					this.notificationService.success('Usuário deletado com sucesso');
+					this.notificationService.success('Função deletada com sucesso');
 					this.findAll();
 				}
 			})			
